@@ -1,0 +1,9 @@
+stages:
+  - downstream-pipelines
+
+infrastructure:
+  stage: downstream-pipelines
+  trigger:
+    include:
+      - infrastructure/.gitlab-ci.yml
+    
