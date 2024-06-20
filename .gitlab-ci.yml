@@ -10,3 +10,6 @@ terraform_apply:
     - cd ./terraform
     - terraform init
     - terraform apply -auto-approve
+  variables:
+    TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+    TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}

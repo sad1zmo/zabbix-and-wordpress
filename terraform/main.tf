@@ -1,7 +1,17 @@
 provider "aws" {
   region = "eu-central-1"
-  access_key = ${AWS_ACCESS_KEY}
-  secret_key = ${AWS_SECRET_KEY}
+  access_key = var.AWS_ACCESS_KEY
+  secret_key = var.AWS_SECRET_KEY
+}
+
+variable "AWS_ACCESS_KEY" {
+  description = "AWS Access Key"
+  type        = string
+}
+
+variable "AWS_SECRET_KEY" {
+  description = "AWS Secret Key"
+  type        = string
 }
 
 resource "aws_security_group" "allow_ssh_http" {
