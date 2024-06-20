@@ -1,5 +1,6 @@
 stages:
   - tf_apply
+  - tf_destroy
 
 terraform_apply:
   stage: tf_apply
@@ -13,3 +14,15 @@ terraform_apply:
   variables:
     TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
     TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+
+terraform_destroy:
+  stage: tf_destroy
+  tags:
+    - test_job
+    - wordpress
+  script:
+    - terraform destroy -auto-approve
+  variables:
+    TF_VAR_AWS_ACCESS_KEY: $AWS_ACCESS_KEY
+    TF_VAR_AWS_SECRET_KEY: $AWS_SECRET_KEY
+  when: manual
