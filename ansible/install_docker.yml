@@ -1,0 +1,25 @@
+---
+- name: Установка Docker и Docker Compose
+  hosts: all
+  become: true
+
+  tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+
+    - name: Docker Install
+      apt:
+        name: docker.io
+        state: present
+    
+    - name: Docker-Compose Install
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Is Docker start?
+      systemd:
+        name: docker
+        state: started
+        enabled: yes

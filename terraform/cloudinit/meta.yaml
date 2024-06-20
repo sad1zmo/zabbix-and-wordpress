@@ -1,0 +1,14 @@
+#cloud-config
+users:
+  - name: ansible
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCpsJWjFhtf2L7DNcwg1B7fevFRWUbO/4xUnEiJER/G5A/C6hTpcu5gTiVXHyQ3mTFOUA+8+wsyuyBiOxsagb+L5CSaWzzDe8ryuQFo9+I+kMU5uxOgghRkBoVIaqxu1MZtHm5LUE7YOw66uSBDi0EZF9B//q74y9XHWO3/dK0nvXf/J5d3gIql8OK7IGMiHvE52ZMi3++kxq66Hoz5+14RJNg0Awd6kqyIncLnOQFFdIseuWM9RBld/9p/BJTwpPvVsIxkxveyiK6PODuFdEX+/7Johqo91/um3Xl00jzkLZuICBOZV3lpg+HGw/9STRR7tXrDljEGzhHkg6eMQbRC5c28Cj/G79DQvhmdnm2/SMBKutH96YV6OE24lbXKsw14C1V+vMtbKopHfIyPYJzOwJ9hUfjOt1eju42tjiW060Xu0fG3LEbAVXOSayvY8FeQps26TSUo/bSMALUoeOvkpWnwpK443+dFBcbWhsfQ8xjvY7MRck42KizqSfNyrk0= suz1k@DESKTOP-5CTBVR8
+  - name: gitlab-runner
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCpsJWjFhtf2L7DNcwg1B7fevFRWUbO/4xUnEiJER/G5A/C6hTpcu5gTiVXHyQ3mTFOUA+8+wsyuyBiOxsagb+L5CSaWzzDe8ryuQFo9+I+kMU5uxOgghRkBoVIaqxu1MZtHm5LUE7YOw66uSBDi0EZF9B//q74y9XHWO3/dK0nvXf/J5d3gIql8OK7IGMiHvE52ZMi3++kxq66Hoz5+14RJNg0Awd6kqyIncLnOQFFdIseuWM9RBld/9p/BJTwpPvVsIxkxveyiK6PODuFdEX+/7Johqo91/um3Xl00jzkLZuICBOZV3lpg+HGw/9STRR7tXrDljEGzhHkg6eMQbRC5c28Cj/G79DQvhmdnm2/SMBKutH96YV6OE24lbXKsw14C1V+vMtbKopHfIyPYJzOwJ9hUfjOt1eju42tjiW060Xu0fG3LEbAVXOSayvY8FeQps26TSUo/bSMALUoeOvkpWnwpK443+dFBcbWhsfQ8xjvY7MRck42KizqSfNyrk0= suz1k@DESKTOP-5CTBVR8
