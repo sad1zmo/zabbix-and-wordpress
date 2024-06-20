@@ -6,7 +6,6 @@ stages:
 before_script:
   - export AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
   - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
-  - pwd
   - cd ./terraform
   - terraform init
 
@@ -16,7 +15,7 @@ terraform_apply:
     - test_job
     - wordpress
   script:
-    - cd ./terraform
+    # - cd ./terraform
     # - terraform init
     - terraform apply -auto-approve
   # variables:
@@ -30,7 +29,7 @@ terraform_destroy:
     - test_job
     - wordpress
   script:
-    - cd ./terraform
+    # - cd ./terraform
     # - terraform init
     - terraform show
     - terraform destroy -auto-approve
