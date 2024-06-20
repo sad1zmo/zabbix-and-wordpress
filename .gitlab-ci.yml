@@ -2,6 +2,12 @@ stages:
   - tf_apply
   - tf_destroy
 
+
+before_script:
+  - export AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+  - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
+  - terraform init
+
 terraform_apply:
   stage: tf_apply
   tags:
@@ -9,12 +15,12 @@ terraform_apply:
     - wordpress
   script:
     - cd ./terraform
-    - pwd
     # - terraform init
-    # - terraform apply -auto-approve
-  variables:
-    TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
-    TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+    - terraform apply -auto-approve
+  # variables:
+  #   TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+  #   TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+
 
 terraform_destroy:
   stage: tf_destroy
@@ -23,9 +29,12 @@ terraform_destroy:
     - wordpress
   script:
     - cd ./terraform
-    - pwd
-    # - terraform destroy -auto-approve
-  variables:
-    TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
-    TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+    # - terraform init
+    - terraform show
+    - terraform destroy -auto-approve
+  # variables:
+  #   TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+  #   TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
   when: manual
+  dependencies: 
+    - terraform_apply
