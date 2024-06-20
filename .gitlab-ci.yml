@@ -3,6 +3,9 @@ stages:
 
 terraform_apply:
   stage: tf_apply
+  tags:
+    - test_job
+    - wordpress
   script:
     - cd ./terraform
     - terraform init
