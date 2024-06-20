@@ -1,5 +1,6 @@
 stages:
   - tf_apply
+  - ansible_for_docker
   - tf_destroy
 
 variables:
@@ -13,16 +14,27 @@ terraform_apply:
     - test_job
     - wordpress
   script:
-    - cd ./terraform
+    - cd ../terraform
     - terraform init
     - terraform apply -auto-approve
-    - cat ../ansible/hosts || true
-
   artifacts:
     paths:
       - ansible/hosts
       - ${TF_STATE}
 
+
+ansible_for_docker:
+  stage: ansible_for_docker
+  tags:
+    - test_job
+    - wordpress
+  script:
+    - cd ../ansible
+    - ansible-playbook install_docker.yml
+# artifacts:
+#     paths:
+#       - ansible/hosts
+#       - ${TF_STATE}
 
 terraform_destroy:
   stage: tf_destroy
@@ -30,13 +42,10 @@ terraform_destroy:
     - test_job
     - wordpress
   script:
-    - cd ./terraform
+    - cd ../terraform
     - terraform init
     - terraform show
     - terraform destroy -auto-approve
-  # variables:
-  #   TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
-  #   TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
   when: manual
   dependencies: 
     - terraform_apply
