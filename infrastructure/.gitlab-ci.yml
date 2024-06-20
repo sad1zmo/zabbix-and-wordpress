@@ -14,8 +14,7 @@ terraform_apply:
     - test_job
     - wordpress
   script:
-    - pwd
-    - cd ../terraform
+    - cd ./terraform
     - terraform init
     - terraform apply -auto-approve
   artifacts:
@@ -30,7 +29,7 @@ ansible_for_docker:
     - test_job
     - wordpress
   script:
-    - cd ../ansible
+    - cd ./ansible
     - ansible-playbook install_docker.yml
 # artifacts:
 #     paths:
@@ -43,7 +42,7 @@ terraform_destroy:
     - test_job
     - wordpress
   script:
-    - cd ../terraform
+    - cd ./terraform
     - terraform init
     - terraform show
     - terraform destroy -auto-approve
