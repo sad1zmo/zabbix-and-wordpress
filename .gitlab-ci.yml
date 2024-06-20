@@ -1,0 +1,9 @@
+stages:
+  - tf_apply
+
+terraform_apply:
+  stage: tf_apply
+  script:
+    - cd ./terraform
+    - terraform init
+    - terraform apply -auto-approve
