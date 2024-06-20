@@ -9,8 +9,9 @@ terraform_apply:
     - wordpress
   script:
     - cd ./terraform
-    - terraform init
-    - terraform apply -auto-approve
+    - pwd
+    # - terraform init
+    # - terraform apply -auto-approve
   variables:
     TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
     TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
@@ -22,7 +23,8 @@ terraform_destroy:
     - wordpress
   script:
     - cd ./terraform
-    - terraform destroy -auto-approve
+    - pwd
+    # - terraform destroy -auto-approve
   variables:
     TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
     TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
