@@ -30,7 +30,7 @@ ansible_for_docker:
     - wordpress
   script:
     - cd ./ansible
-    - ansible-playbook install_docker.yml
+    - ansible-playbook install_docker.yml -vvv
 # artifacts:
 #     paths:
 #       - ansible/hosts
