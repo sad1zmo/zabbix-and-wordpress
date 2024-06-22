@@ -39,7 +39,7 @@ ansible_docker_install:
     - ./check_ssh.sh ${FIRST_SERVER}
     - ./check_ssh.sh ${SECOND_SERVER}
   script:
-    - cd ./ansible
+    - cd ${CI_PROJECT_DIR}/ansible
     - ansible-playbook install_docker.yml
   allow_failure: true
   needs:
