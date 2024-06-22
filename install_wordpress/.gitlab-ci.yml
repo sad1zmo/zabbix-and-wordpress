@@ -13,6 +13,7 @@ deploy_to_stage:
   - test_job
   - wordpress
   before_script:
+    - ls -la ${CI_PROJECT_DIR}/ansible
     - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
   script:
     - echo ${FIRST_SERVER}
@@ -20,6 +21,8 @@ deploy_to_stage:
     # - ssh gitlab-runner@remote_server 'export WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} && docker-compose -f ~/docker-compose.yaml up -d'
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /stage/i
+  dependencies: 
+    - terraform_apply
 
 deploy_to_prod:
   stage: deploy_wordpress
@@ -31,3 +34,5 @@ deploy_to_prod:
     - ssh gitlab-runner@remote_server 'export WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} && docker-compose -f ~/docker-compose.yaml up -d'
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /prod/i
+  dependencies: 
+    - terraform_apply
