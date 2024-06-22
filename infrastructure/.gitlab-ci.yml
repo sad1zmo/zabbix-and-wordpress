@@ -33,9 +33,10 @@ create-variable:
     - cd ./ansible
     - IP_ADDRESS=$(cat hosts)
     - echo "IP_ADDRESS=${IP_ADDRESS}" >> ip_address.env
+    - ls -l ip_address.env
   artifacts:
     paths:
-      - ip_address.env
+      - ansible/ip_address.env
   dependencies: 
     - terraform_apply
 
