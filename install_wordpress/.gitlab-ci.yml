@@ -30,5 +30,6 @@ deploy_to_prod:
   script:
     - scp ${CI_PROJECT_DIR}/install_wordpress/prod/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
     - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
+    - echo "${FIRST_SERVER}:9000"
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /prod/i
