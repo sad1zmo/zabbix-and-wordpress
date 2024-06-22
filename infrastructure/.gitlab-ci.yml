@@ -3,8 +3,6 @@
 variables:
   TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
   TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
-  FIRST_SERVER: $(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
-  SECOND_SERVER: $(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '2p')
 
 cache:
   paths:
@@ -34,6 +32,8 @@ ansible_docker_install:
     - test_job
     - wordpress
   before_script:
+    - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
+    - SECOND_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '2p')
     - cd ${CI_PROJECT_DIR}/infrastructure
     - chmod +x ./check_ssh.sh
     - ./check_ssh.sh ${FIRST_SERVER}
