@@ -14,5 +14,6 @@ compose:
     include:
       - install_wordpress/.gitlab-ci.yml
     strategy: depend
-  dependencies:
-    - infrastructure
+  needs:
+    - job: infrastructure
+      artifacts: true
