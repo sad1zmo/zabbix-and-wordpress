@@ -1,6 +1,5 @@
 stages:
   - tf_apply
-  - get_variables
   - ansible_docker_install
   - copy_compose_file_to_remote
   - tf_destroy
@@ -23,24 +22,6 @@ terraform_apply:
     paths:
       - ansible/hosts
       - ${TF_STATE}
-
-create-variable:
-  stage: get_variables
-  tags:
-    - test_job
-    - wordpress
-  script:
-    - cd ./ansible
-    - IP_ADDRESS=$(cat hosts)
-    - echo "IP_ADDRESS=${IP_ADDRESS}" >> ip_address.env
-    - cat ip_address.env
-    - ls -l ip_address.env
-  artifacts:
-    paths:
-      - ansible/ip_address.env
-  dependencies: 
-    - terraform_apply
-
 
 ansible_docker_install:
   stage: ansible_docker_install

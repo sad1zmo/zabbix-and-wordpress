@@ -13,7 +13,7 @@ deploy_to_stage:
   - test_job
   - wordpress
   before_script:
-    - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '2p')
+    - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
   script:
     - echo ${FIRST_SERVER}
     - scp ${CI_PROJECT_DIR}/install_wordpress/stage/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
