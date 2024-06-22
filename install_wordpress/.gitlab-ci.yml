@@ -3,6 +3,10 @@ variables:
   WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
   MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
   WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+
+cache:
+  paths:
+    - ${CI_PROJECT_DIR}/ansible/hosts
   
 stages:
   - deploy_wordpress

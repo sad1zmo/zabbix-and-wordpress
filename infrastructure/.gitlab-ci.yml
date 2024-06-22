@@ -4,6 +4,11 @@ stages:
   - copy_compose_file_to_remote
   - tf_destroy
 
+cache:
+  paths:
+    - ${CI_PROJECT_DIR}/ansible/hosts
+
+
 variables:
   TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
   TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
@@ -20,10 +25,10 @@ terraform_apply:
     - terraform apply -auto-approve
   rules:
     - if: '$CI_COMMIT_MESSAGE =~ /stage/i'
-  artifacts:
-    paths:
-      - ansible/hosts
-      - ${TF_STATE}
+  # artifacts:
+  #   paths:
+  #     - ansible/hosts
+  #     - ${TF_STATE}
 
 ansible_docker_install:
   stage: ansible_docker_install
@@ -36,7 +41,7 @@ ansible_docker_install:
   allow_failure: true
   needs:
     - job: terraform_apply
-      artifacts: true
+      # artifacts: true
 # copy_compose_file_to_remote:
 #   stage: copy_compose_file_to_remote
 #   tags:
@@ -61,4 +66,4 @@ terraform_destroy:
   when: manual
   needs:
     - job: terraform_apply
-      artifacts: true
+      # artifacts: true
