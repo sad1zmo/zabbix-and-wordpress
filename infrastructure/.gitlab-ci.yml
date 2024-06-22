@@ -33,6 +33,7 @@ create-variable:
     - cd ./ansible
     - IP_ADDRESS=$(cat hosts)
     - echo "IP_ADDRESS=${IP_ADDRESS}" >> ip_address.env
+    - cat ip_address.env
     - ls -l ip_address.env
   artifacts:
     paths:
