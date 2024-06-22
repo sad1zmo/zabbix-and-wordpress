@@ -18,6 +18,8 @@ terraform_apply:
     - cd ./terraform
     - terraform init
     - terraform apply -auto-approve
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /stage/i'
   artifacts:
     paths:
       - ansible/hosts
