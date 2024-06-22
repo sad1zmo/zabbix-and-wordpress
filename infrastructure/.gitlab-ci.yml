@@ -1,6 +1,8 @@
 stages:
   - tf_apply
-  - ansible_for_docker
+  - get_variables
+  - ansible_docker_install
+  - copy_compose_file_to_remote
   - tf_destroy
 
 variables:
@@ -22,9 +24,24 @@ terraform_apply:
       - ansible/hosts
       - ${TF_STATE}
 
+create-variable:
+  stage: get_variables
+  tags:
+    - test_job
+    - wordpress
+  script:
+    - cd ./ansible
+    - IP_ADDRESS=$(cat hosts)
+    - echo "IP_ADDRESS=${IP_ADDRESS}" >> ip_address.env
+  artifacts:
+    paths:
+      - ip_address.env
+  dependencies: 
+    - terraform_apply
 
-ansible_for_docker:
-  stage: ansible_for_docker
+
+ansible_docker_install:
+  stage: ansible_docker_install
   tags:
     - test_job
     - wordpress
@@ -32,10 +49,19 @@ ansible_for_docker:
     - cd ./ansible
     - ansible-playbook install_docker.yml
   allow_failure: true
-# artifacts:
-#     paths:
-#       - ansible/hosts
-#       - ${TF_STATE}
+  dependencies: 
+    - terraform_apply
+
+# copy_compose_file_to_remote:
+#   stage: copy_compose_file_to_remote
+#   tags:
+#     - test_job
+#     - wordpress
+#   script:
+#     - cd ./ansible
+#     - ansible-playbook -i inventory playbook.yml -e ci_dir=$CI_DIR
+#   variables:
+#     CI_DIR: ${CI_PROJECT_DIR}
 
 terraform_destroy:
   stage: tf_destroy

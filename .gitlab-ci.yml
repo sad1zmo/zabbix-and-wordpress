@@ -6,4 +6,11 @@ infrastructure:
   trigger:
     include:
       - infrastructure/.gitlab-ci.yml
-    
+    strategy: depend
+
+compose:
+  stage: downstream-pipelines
+  trigger:
+    include:
+      - install_application/.gitlab-ci.yml
+    strategy: depend

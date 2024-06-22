@@ -1,0 +1,13 @@
+- name: Deploy Docker Compose
+  hosts: all
+  tasks:
+
+    - name: Copy prod docker-compose file to remote server
+      copy:
+        src: {{ ci_dir }}/ansible/prod/docker-compose.yaml
+        dest: ~/docker-compose.yaml
+        
+    - name: Run docker-compose up
+      command: docker-compose up -d
+      args:
+        chdir: ~/

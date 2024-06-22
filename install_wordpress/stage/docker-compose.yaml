@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  prod_wordpress:
+    image: wordpress:latest
+    ports:
+      - "8001:80"
+    environment:
+      WORDPRESS_DB_HOST: prod_db
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+    networks:
+      - prod_wordpress_network
+    volumes:
+      - prod_wordpress_data:/var/www/html
+
+  prod_db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME}
+      MYSQL_USER: ${WORDPRESS_DB_USER}
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - prod_wordpress_network
+    volumes:
+      - prod_db_data:/var/lib/mysql
+
+volumes:
+  prod_wordpress_data:
+  prod_db_data:
+
