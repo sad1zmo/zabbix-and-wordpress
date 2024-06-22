@@ -11,13 +11,11 @@ deploy_to_stage:
   - test_job
   - wordpress
   before_script:
-    - ls -la ${CI_PROJECT_DIR}/ansible
     - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
     - ssh-keyscan -H ${FIRST_SERVER} >> ~/.ssh/known_hosts
   script:
     - scp ${CI_PROJECT_DIR}/install_wordpress/stage/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
     - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
-    # - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /stage/i
 
@@ -27,11 +25,10 @@ deploy_to_prod:
   - test_job
   - wordpress
   before_script:
-    - ls -la ${CI_PROJECT_DIR}/ansible
     - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
     - ssh-keyscan -H ${FIRST_SERVER} >> ~/.ssh/known_hosts
   script:
-    - scp ${CI_PROJECT_DIR}/ansible/prod/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
+    - scp ${CI_PROJECT_DIR}/install_wordpress/prod/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
     - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /prod/i
