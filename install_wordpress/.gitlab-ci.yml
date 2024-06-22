@@ -3,30 +3,27 @@ variables:
   WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
   MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
   WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-  FIRST_SERVER: ${FIRST_SERVER}
   
 stages:
-  - deploy
+  - deploy_wordpress
+
 deploy_to_stage:
-  stage: deploy
-  dependencies:
-    - create-variable
+  stage: deploy_wordpress
   tags:
   - test_job
   - wordpress
+  before_script:
+    - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
   script:
+    - echo ${FIRST_SERVER}
     - scp ${CI_PROJECT_DIR}/install_wordpress/stage/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
     # - ssh gitlab-runner@remote_server 'export WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} && docker-compose -f ~/docker-compose.yaml up -d'
   only:
     variables:
     - ${CI_COMMIT_MESSAGE} =~ /stage/i
 
-prod:
-  - deploy
 deploy_to_prod:
-  prod: deploy
-  dependencies:
-    - create-variable
+  stage: deploy_wordpress
   tags:
   - test_job
   - wordpress
