@@ -15,6 +15,5 @@ compose:
       - install_wordpress/.gitlab-ci.yml
     strategy: depend
   needs:
-    - pipeline: $CI_PIPELINE_ID
-      job: terraform_apply
+    - job: infrastructure
       artifacts: true
