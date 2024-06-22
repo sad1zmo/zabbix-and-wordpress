@@ -1,18 +1,21 @@
+
+
+variables:
+  TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+  TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+  # TF_STATE: "terraform/terraform.tfstate"
+
+cache:
+  paths:
+    - ${CI_PROJECT_DIR}/ansible/hosts
+    - ${CI_PROJECT_DIR}/terraform/terraform.tfstate
+
 stages:
   - tf_apply
   - ansible_docker_install
   - copy_compose_file_to_remote
   - tf_destroy
 
-cache:
-  paths:
-    - ${CI_PROJECT_DIR}/ansible/hosts
-
-
-variables:
-  TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
-  TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
-  TF_STATE: "terraform/terraform.tfstate"
 
 terraform_apply:
   stage: tf_apply
@@ -27,8 +30,8 @@ terraform_apply:
     - if: '$CI_COMMIT_MESSAGE =~ /stage/i'
   # artifacts:
   #   paths:
-  #     - ansible/hosts
-  #     - ${TF_STATE}
+      # - ansible/hosts
+      # - ${TF_STATE}
 
 ansible_docker_install:
   stage: ansible_docker_install
@@ -42,16 +45,6 @@ ansible_docker_install:
   needs:
     - job: terraform_apply
       # artifacts: true
-# copy_compose_file_to_remote:
-#   stage: copy_compose_file_to_remote
-#   tags:
-#     - test_job
-#     - wordpress
-#   script:
-#     - cd ./ansible
-#     - ansible-playbook -i inventory playbook.yml -e ci_dir=$CI_DIR
-#   variables:
-#     CI_DIR: ${CI_PROJECT_DIR}
 
 terraform_destroy:
   stage: tf_destroy
