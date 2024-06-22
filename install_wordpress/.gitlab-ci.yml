@@ -21,9 +21,6 @@ deploy_to_stage:
     # - ssh gitlab-runner@remote_server 'export WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} && docker-compose -f ~/docker-compose.yaml up -d'
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /stage/i
-  needs:
-    - job: terraform_apply
-      artifacts: true
 
 deploy_to_prod:
   stage: deploy_wordpress
@@ -35,6 +32,3 @@ deploy_to_prod:
     - ssh gitlab-runner@remote_server 'export WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} && docker-compose -f ~/docker-compose.yaml up -d'
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /prod/i
-  needs:
-    - job: terraform_apply
-      artifacts: true

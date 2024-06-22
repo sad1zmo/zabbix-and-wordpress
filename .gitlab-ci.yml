@@ -7,6 +7,9 @@ infrastructure:
     include:
       - infrastructure/.gitlab-ci.yml
     strategy: depend
+  artifacts:
+    paths:
+      - ansible/hosts
 
 compose:
   stage: downstream-pipelines
