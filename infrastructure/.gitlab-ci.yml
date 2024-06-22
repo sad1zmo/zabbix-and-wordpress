@@ -3,7 +3,8 @@
 variables:
   TF_VAR_AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
   TF_VAR_AWS_SECRET_KEY: ${AWS_SECRET_KEY}
-  # TF_STATE: "terraform/terraform.tfstate"
+  FIRST_SERVER: $(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
+  SECOND_SERVER: $(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '2p')
 
 cache:
   paths:
@@ -26,25 +27,23 @@ terraform_apply:
     - cd ./terraform
     - terraform init
     - terraform apply -auto-approve
-  rules:
-    - if: '$CI_COMMIT_MESSAGE =~ /stage/i'
-  # artifacts:
-  #   paths:
-      # - ansible/hosts
-      # - ${TF_STATE}
 
 ansible_docker_install:
   stage: ansible_docker_install
   tags:
     - test_job
     - wordpress
+  before_script:
+    - cd ${CI_PROJECT_DIR}/infrastructure
+    - chmod +x ./check_ssh.sh
+    - ./check_ssh.sh ${FIRST_SERVER}
+    - ./check_ssh.sh ${SECOND_SERVER}
   script:
     - cd ./ansible
     - ansible-playbook install_docker.yml
   allow_failure: true
   needs:
     - job: terraform_apply
-      # artifacts: true
 
 terraform_destroy:
   stage: tf_destroy

@@ -23,7 +23,17 @@ deploy_to_stage:
   script:
     - echo ${FIRST_SERVER}
     - scp ${CI_PROJECT_DIR}/install_wordpress/stage/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
-    - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
+    - sudo usermod -aG docker gitlab-runner
+    - sudo chmod 666 /var/run/docker.sock
+    - |
+      ssh gitlab-runner@${FIRST_SERVER} << 'EOF'
+      export WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      export WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      export WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      export MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      sudo docker-compose -f /home/gitlab-runner/docker-compose.yaml up -d
+      EOF
+    # - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /stage/i
 
