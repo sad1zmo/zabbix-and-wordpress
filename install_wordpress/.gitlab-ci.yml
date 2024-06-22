@@ -23,7 +23,7 @@ deploy_to_stage:
   script:
     - echo ${FIRST_SERVER}
     - scp ${CI_PROJECT_DIR}/install_wordpress/stage/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
-    # - ssh gitlab-runner@remote_server 'export WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} && docker-compose -f ~/docker-compose.yaml up -d'
+    - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /stage/i
 
@@ -38,6 +38,6 @@ deploy_to_prod:
     - ssh-keyscan -H ${FIRST_SERVER} >> ~/.ssh/known_hosts
   script:
     - scp ${CI_PROJECT_DIR}/ansible/prod/docker-compose.yaml gitlab-runner@${FIRST_SERVER}:~/docker-compose.yaml
-    - ssh gitlab-runner@remote_server 'export WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST} WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD} && docker-compose -f ~/docker-compose.yaml up -d'
+    - envsubst < ${CI_PROJECT_DIR}/install_wordpress/deploy.sh|ssh gitlab-runner@${FIRST_SERVER}
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /prod/i
