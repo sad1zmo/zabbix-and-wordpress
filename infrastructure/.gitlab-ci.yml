@@ -41,7 +41,7 @@ ansible_docker_install:
   script:
     - cd ${CI_PROJECT_DIR}/ansible
     - ansible-playbook install_docker.yml
-  allow_failure: true
+  allow_failure: false
   needs:
     - job: terraform_apply
 
@@ -58,4 +58,3 @@ terraform_destroy:
   when: manual
   needs:
     - job: terraform_apply
-      # artifacts: true

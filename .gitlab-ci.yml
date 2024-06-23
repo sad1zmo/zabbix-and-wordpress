@@ -8,7 +8,7 @@ infrastructure:
       - infrastructure/.gitlab-ci.yml
     strategy: depend
 
-compose:
+wordpress_compose:
   stage: downstream-pipelines
   trigger:
     include:
@@ -16,4 +16,12 @@ compose:
     strategy: depend
   needs:
     - job: infrastructure
-      artifacts: true
+
+zabbix_compose:
+  stage: downstream-pipelines
+  trigger:
+    include:
+      - install_zabbix/.gitlab-ci.yml
+    strategy: depend
+  needs:
+    - job: infrastructure
