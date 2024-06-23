@@ -10,8 +10,8 @@ services:
       TZ: "Europe/Moscow"
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: zabbix
-      MYSQL_USER: ${WORDPRESS_DB_USER}
-      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - /opt/zabbix/mariadb/data:/var/lib/mysql
     networks:
@@ -25,8 +25,8 @@ services:
     environment:
       TZ: "Europe/Moscow"
       DB_SERVER_HOST: zabbix-mariadb
-      MYSQL_USER: ${WORDPRESS_DB_USER}
-      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
       - zabbix-mariadb
     networks:
@@ -40,8 +40,8 @@ services:
     environment:
       TZ: "Europe/Moscow"
       DB_SERVER_HOST: zabbix-mariadb
-      MYSQL_USER: ${WORDPRESS_DB_USER}
-      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       ZBX_SERVER_HOST: zabbix-server
       PHP_TZ: "Europe/Moscow"
     ports:      
