@@ -11,9 +11,15 @@ deploy_zabbix:
   - test_job
   - wordpress
   before_script:
+    - FIRST_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '1p')
     - SECCOND_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '2p')
+    - ssh-keyscan -H ${FIRST_SERVER} >> ~/.ssh/known_hosts
     - ssh-keyscan -H ${SECCOND_SERVER} >> ~/.ssh/known_hosts
+    - sed -i 's/<Zabbix Server IP>/${SECCOND_SERVER}/' ${CI_PROJECT_DIR}/install_zabbix/zabbix_agent/zabbix_agentd.conf
+    - sed -i 's/<IP address of the container>/${FIRST_SERVER}/' ${CI_PROJECT_DIR}/install_zabbix/zabbix_agent/zabbix_agentd.conf
   script:
+    - scp ${CI_PROJECT_DIR}/install_zabbix/zabbix_agent/* gitlab-runner@${FIRST_SERVER}:~/
     - scp ${CI_PROJECT_DIR}/install_zabbix/docker-compose.yaml gitlab-runner@${SECCOND_SERVER}:~/docker-compose.yaml
     - envsubst < ${CI_PROJECT_DIR}/install_zabbix/deploy.sh|ssh gitlab-runner@${SECCOND_SERVER}
+    - ssh gitlab-runner@${FIRST_SERVER} 'docker build -t zabbix-agent . && docker run --name zabbix-agent --net="host" --privileged -d zabbix-agent'
     - echo "http://${SECCOND_SERVER}:8080"
