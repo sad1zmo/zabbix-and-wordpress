@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   zabbix-mariadb:
-    image: mariadb
+    image: mariadb:11.0.3
     container_name: zabbix-mariadb
     hostname: zabbix-mariadb
     restart: unless-stopped
