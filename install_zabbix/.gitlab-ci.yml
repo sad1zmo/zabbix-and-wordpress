@@ -14,6 +14,6 @@ deploy_zabbix:
     - SECCOND_SERVER=$(cat ${CI_PROJECT_DIR}/ansible/hosts | sed -n '2p')
     - ssh-keyscan -H ${SECCOND_SERVER} >> ~/.ssh/known_hosts
   script:
-    - scp ${CI_PROJECT_DIR}/install_zabbix/stage/docker-compose.yaml gitlab-runner@${SECCOND_SERVER}:~/docker-compose.yaml
+    - scp ${CI_PROJECT_DIR}/install_zabbix/docker-compose.yaml gitlab-runner@${SECCOND_SERVER}:~/docker-compose.yaml
     - envsubst < ${CI_PROJECT_DIR}/install_zabbix/deploy.sh|ssh gitlab-runner@${SECCOND_SERVER}
     - echo "http://${SECCOND_SERVER}:8080"
